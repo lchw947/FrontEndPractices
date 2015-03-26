@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test Menu</title>
+	<script type="text/javascript" src="db.js"></script>
+	<script type="text/javascript">
+		window.onload = function() {
+  			populateTable("menuTable");
+		};
+		function populateTable (tableID) {
+			var header = document.getElementById(tableID).createTHead();
+			header = header.insertRow(0);
+			header.insertCell(0).innerHTML = "Entree";
+			header.insertCell(1).innerHTML = "Price";
+			header.insertCell(2).innerHTML = "Ingredients";
+
+			document.getElementById(tableID).createTBody();
+
+			for (var i=0; i < entrees.length; i++) {
+				var entree = entrees[i];
+				var name = entree["name"];
+				var price = entree["price"];
+				var ingres = entree["ingredients"];
+				var tableRef = document.getElementById(tableID).tBodies[0];
+				console.log(tableRef);
+
+				var row = tableRef.insertRow(i);
+				row.insertCell(0).innerHTML = name;
+				row.insertCell(1).innerHTML = price;
+				row.insertCell(2).innerHTML = ingres;
+			}
+			return true
+		}
+	</script>
+</head>
+<body>
+	
+	<div class="container">
+		<table id="menuTable"></table>
+	</div>
+</body>	
+
+<style type="text/css">
+	#menuTable, td{
+		text-align: left;
+		padding: 5px;
+	}
+</style>
+
+</html>
