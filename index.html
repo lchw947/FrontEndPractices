@@ -1,50 +1,190 @@
 <!DOCTYPE html>
+
 <html>
 <head>
-	<title>Test Menu</title>
-	<script type="text/javascript" src="db.js"></script>
-	<script type="text/javascript">
+		<title>WELCOME TO CINDY's RESTAURANT</title>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="db.js"></script>
+		<script type="text/javascript">
+
+		$("document").ready(function(){
+			$("#slogan").css("allign-text","center");
+			$("#slogan").addClass("gradient");
+			$("#menuTable").css("padding","50px");
+			$("#tr").mouseover(function() {$(this).addClass("mouseon"); });
+			$("#tr").mouseout(function() {$(this).removeClass("mouseon"); });
+			$(".feature").hide();
+			$("#logo").css({"padding":"10x"})
+			$("#logo").click(function() {
+				if ($(".feature").not(":visible"))$(".feature").show();$(this).hide(2000);})
+			$("#date").datepicker();
+		});
+
+		var currentTable = entrees;
 		window.onload = function() {
-  			populateTable("menuTable");
-		};
-		function populateTable (tableID) {
+				populateTable("menuTable", currentTable);
+		}
+		
+		function searchMatch(){
+
+			var searchID = document.getElementById('searchKey').value.toLowerCase();
+			console.log(searchID);
+				var searMatch = [];
+				for (var i=0; i<entrees.length;i++){
+					var entree= entrees[i];
+					var name = entree["name"].toLowerCase();
+					var ingres = entree["ingredients"];
+					
+					for (var j=0 ; j<ingres.length; j++){
+						var ing = ingres[j].toLowerCase();
+			
+						if (name.indexOf(searchID)>-1){
+							searMatch.push(entree);
+							break;
+						}
+						else if (ing.indexOf(searchID)>-1){
+							searMatch.push(entree);
+							break;
+						}
+				
+					}
+				}	
+				currentTable = searMatch
+				populateTable("menuTable",currentTable);
+				return true;
+		}
+
+		function populateTable (tableID,data) {
+			
+			document.getElementById(tableID).innerHTML = null;
 			var header = document.getElementById(tableID).createTHead();
 			header = header.insertRow(0);
-			header.insertCell(0).innerHTML = "Entree";
-			header.insertCell(1).innerHTML = "Price";
-			header.insertCell(2).innerHTML = "Ingredients";
-
+			header.insertCell(0).innerHTML= "Entree";
+			header.insertCell(1).innerHTML= "Price";
+			header.insertCell(2).innerHTML= "Ingredients";
+			
 			document.getElementById(tableID).createTBody();
-
-			for (var i=0; i < entrees.length; i++) {
-				var entree = entrees[i];
-				var name = entree["name"];
-				var price = entree["price"];
-				var ingres = entree["ingredients"];
-				var tableRef = document.getElementById(tableID).tBodies[0];
-				console.log(tableRef);
-
-				var row = tableRef.insertRow(i);
-				row.insertCell(0).innerHTML = name;
-				row.insertCell(1).innerHTML = price;
-				row.insertCell(2).innerHTML = ingres;
+			
+			for(i=0;i<data.length;i++){
+				var entree= data[i];
+				var name= entree["name"];
+				var price= entree["price"];
+				var ingres= entree["ingredients"];
+				
+				var tableref = document.getElementById(tableID).tBodies[0];
+				
+				
+				tableref = tableref.insertRow(i);
+				tableref.insertCell(0).innerHTML= name;
+				tableref.insertCell(1).innerHTML= price;
+				tableref.insertCell(2).innerHTML= ingres;
 			}
-			return true
+			return true;
 		}
-	</script>
+
+		function sortLowPrice(){
+			var array = currentTable.slice();
+			var len = currentTable.length;
+			for(var i=0; i<len; i++){
+				
+				for (var j=0; j<i; j++){
+					if (array[i]["price"]<array[j]["price"]){
+							var tempPrice = array[i]["price"];
+							array[i]["price"] = array[j]["price"];
+							array[j]["price"] = tempPrice;								
+						
+							var tempName = array[i]["name"];
+							array[i]["name"] = array[j]["name"];
+							array[j]["name"] = tempName;	
+
+							var tempIngres = array[i]["ingredients"];
+							array[i]["ingredients"] = array[j]["ingredients"];
+							array[j]["ingredients"] = tempIngres;	
+					}	
+				
+				}
+
+			}
+			populateTable("menuTable",array);
+			return true;
+		}
+		function sortHighPrice(){
+			var array = currentTable.slice();
+			var len = currentTable.length;
+			for(var i=0; i<len; i++){
+				
+				for (var j=0; j<i; j++){
+					if (array[i]["price"]>array[j]["price"]){
+							var tempPrice = array[i]["price"];
+							array[i]["price"] = array[j]["price"];
+							array[j]["price"] = tempPrice;								
+						
+							var tempName = array[i]["name"];
+							array[i]["name"] = array[j]["name"];
+							array[j]["name"] = tempName;	
+
+							var tempIngres = array[i]["ingredients"];
+							array[i]["ingredients"] = array[j]["ingredients"];
+							array[j]["ingredients"] = tempIngres;	
+					}	
+				
+				}
+
+			}
+			populateTable("menuTable",array);
+			return true;
+		}
+		</script>
+		
 </head>
 <body>
+	<div "pageHead">
+	<h1 id="slogan">A New Way to Dine</h1>
 	
-	<div class="container">
-		<table id="menuTable"></table>
+	<img id="logo" src="http://images.clipartpanda.com/spoon-and-fork-png-45332.png" width=200px height = 200px ></img>
 	</div>
+
+	<div class="feature" id="clickMe"><h3> Today's Menu: </h3><div>
+
+	<div class="container">
+		<table class="feature" id="menuTable"></table>
+	</div>
+	<div>
+  	Search: <input type="text" id="searchKey" onkeydown="if(event.keyCode == 13) document.getElementById('submit').click()"/>
+  	<input class="feature" type="submit" id="submit" value="Submit" onClick="searchMatch()">
+
+ 	<button class="feature" id="sortLowPrice" onclick="sortLowPrice()">Sort By Lowest Price</button>
+
+ 	<button class="feature" id="sortHighPrice" onclick="sortHighPrice()">Sort By Highest Price</button>
+
+ 	<p>Date: <input type="text" id="date"></p>
+
+  </div>
 </body>	
 
 <style type="text/css">
-	#menuTable, td{
-		text-align: left;
-		padding: 5px;
+	#pageHead{
+		border= 1000px;
+
 	}
+	.gradient{
+		background-color: red;
+		background-image: linear-gradient(45deg,#FDE6C3,#FFC975);
+	}
+
+	table, th, td {
+		border: 1px solid black;
+	}
+
+	tr.nice td {
+		background: #FAFAD2;
+	}
+	tr.mouseon td {
+		background: #1E90FF;
+	}
+
 </style>
 
 </html>

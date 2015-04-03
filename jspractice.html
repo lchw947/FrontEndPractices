@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<h1>hello<h1>
+		<script type="text/javascript">
+			var array1=[2,4,10,40,5,6,34];
+			var array11=["Corey","Jack","Jill","Pete","anne"]
+			var array111=[
+			{first:"Anne",last:"Smith"},
+			{first:"Anne",last:"Cruise"},
+			{first:"Tom",last:"Cruise"}];
+
+			function sortnum(a,b){
+				return a-b;
+			}
+			function sortAlpha(a,b){
+				aLower = a.toLowerCase();
+				bLower = b.toLowerCase();
+				if (aLower < bLower) return -1;
+				if (aLower > bLower) return 1;
+				return 0;
+			}
+
+			function sortName(a,b){
+				aLower = a.first.toLowerCase();
+				bLower = b.first.toLowerCase();
+				aLast = a.last.toLowerCase();
+				bLast = b.last.toLowerCase();
+				if (aLower == bLower){
+					if (aLast > bLast) return 1;
+					if (aLast < bLast) return -1;
+					return 0;
+				}
+				if (aLower < bLower) return -1;
+				if (aLower > bLower) return 1;
+				return 0;
+			}
+			var array2 = array1.sort(sortnum);
+			var array22 = array11.sort(sortAlpha);
+			//document.write(array2);
+			//document.write(array11); 
+			//document.write(array22);
+			//for (i=0;i<array111.length;i++){
+			//	document.write(array111[i].first + " " + array111[i].last + ", ");
+			//}
+			var222= array111.sort(sortName);
+			for (i=0;i<array111.length;i++){
+				document.write(array111[i].first + " " + array111[i].last + ", ");
+			}
+
+		</script>
+	</head>
+	
+	<body>
+	</body>
+
+
+
+</html>
