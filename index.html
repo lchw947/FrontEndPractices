@@ -9,19 +9,7 @@
 		<script type="text/javascript" src="db.js"></script>
 		<script type="text/javascript">
 
-		$("document").ready(function(){
-			$("#slogan").css("allign-text","center");
-			$("#slogan").addClass("gradient");
-			$("#menuTable").css("padding","50px");
-			$("#tr").mouseover(function() {$(this).addClass("mouseon"); });
-			$("#tr").mouseout(function() {$(this).removeClass("mouseon"); });
-			$(".feature").hide();
-			$("#logo").css({"padding":"10x"})
-			$("#logo").click(function() {
-				if ($(".feature").not(":visible"))$(".feature").show();$(this).hide(2000);})
-			$("#date").datepicker();
-		});
-
+		
 		var currentTable = entrees;
 		window.onload = function() {
 				populateTable("menuTable", currentTable);
@@ -62,7 +50,7 @@
 			var header = document.getElementById(tableID).createTHead();
 			header = header.insertRow(0);
 			header.insertCell(0).innerHTML= "Entree";
-			header.insertCell(1).innerHTML= "Price";
+			header.insertCell(1).innerHTML= "<a id=price href=# onclick=sortLowPrice()>Price</a>";
 			header.insertCell(2).innerHTML= "Ingredients";
 			
 			document.getElementById(tableID).createTBody();
@@ -163,6 +151,25 @@
 
   </div>
 </body>	
+
+<script type="text/javascript">
+$("document").ready(function(){
+			$("#slogan").css("allign-text","center");
+			$("#slogan").addClass("gradient");
+			$("#menuTable").css("padding","50px");
+			$("#tr").mouseover(function() {$(this).addClass("mouseon"); });
+			$("#tr").mouseout(function() {$(this).removeClass("mouseon"); });
+			$(".feature").hide();
+			$("#logo").css({"padding":"10x"})
+			$("#logo").click(function() {
+				if ($(".feature").not(":visible"))$(".feature").show();$(this).hide(1000);})
+			$("#date").datepicker();
+			$("#price").click(function() {
+				consoleasdfasdfasd
+			})
+		});
+
+</script>
 
 <style type="text/css">
 	#pageHead{
